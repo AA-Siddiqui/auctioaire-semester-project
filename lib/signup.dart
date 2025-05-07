@@ -1,8 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'home.dart';
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+  const SignUpPage({super.key});
 
   @override
   State<SignUpPage> createState() => _SignUpPageState();
@@ -15,16 +15,29 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _passwordController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    // Initialize Firebase Auth or any other necessary services here
+
+    // listen to firebase auth state changes
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user != null) {
+        // User is signed in, navigate to the auction page
+        if (mounted) {
+          Navigator.pushReplacementNamed(
+            context,
+            "/auction",
+          );
+        }
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sign Up'),
-        titleTextStyle: const TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
-        backgroundColor: Colors.black26,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -86,10 +99,10 @@ class _SignUpPageState extends State<SignUpPage> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    // Replace this with your sign-up logic
-                    print('Name: ${_nameController.text}');
-                    print('Email: ${_emailController.text}');
-                    print('Password: ${_passwordController.text}');
+                    // Firebase sign-up
+                    FirebaseAuth.instance.createUserWithEmailAndPassword(
+                        email: _emailController.text,
+                        password: _passwordController.text);
                   }
                 },
                 child: const Text('Sign Up'),

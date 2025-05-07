@@ -1,8 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'auction.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -12,6 +12,25 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize Firebase Auth or any other necessary services here
+
+    // listen to firebase auth state changes
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user != null) {
+        // User is signed in, navigate to the auction page
+        if (mounted) {
+          Navigator.pushReplacementNamed(
+            context,
+            "/auction",
+          );
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +81,13 @@ class _LoginPageState extends State<LoginPage> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    // Replace this with your login logic
-                    print('Email: ${_emailController.text}');
-                    print('Password: ${_passwordController.text}');
+                    // Perform login action
+                    String email = _emailController.text;
+                    String password = _passwordController.text;
+
+                    // Firebase login
+                    FirebaseAuth.instance.signInWithEmailAndPassword(
+                        email: email, password: password);
                   }
                 },
                 child: const Text('Login'),
