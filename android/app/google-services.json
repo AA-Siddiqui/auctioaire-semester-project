@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "395035738916",
+    "project_id": "auctioaire",
+    "storage_bucket": "auctioaire.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:395035738916:android:cf6ebe00449cc19b2d29b1",
+        "android_client_info": {
+          "package_name": "com.example.auctioaire"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhp9PwVZzgKr9weHoIkG5wyF1a05sDBSw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
