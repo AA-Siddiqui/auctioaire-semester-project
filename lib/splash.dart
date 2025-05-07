@@ -11,12 +11,11 @@ class SplashScreen extends StatelessWidget {
     Timer(const Duration(seconds: 3), () {
       FirebaseAuth.instance.authStateChanges().listen((User? user) {
         if (user != null) {
-          Navigator.pushReplacementNamed(
-            context,
-            "/auction",
-          );
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/auction', (route) => false);
         } else {
-          Navigator.pushReplacementNamed(context, '/login');
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/login', (route) => false);
         }
       });
     });

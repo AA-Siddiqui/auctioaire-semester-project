@@ -197,7 +197,9 @@ class _AddPageState extends State<AddPage> {
                 uploadedImage == null
                     ? ElevatedButton(
                         onPressed: () async {
-                          isUploading = true;
+                          setState(() {
+                            isUploading = true;
+                          });
                           final result = await FilePicker.platform
                               .pickFiles(type: FileType.image);
                           if (result != null &&
@@ -240,7 +242,9 @@ class _AddPageState extends State<AddPage> {
                               );
                             }
                           }
-                          isUploading = false;
+                          setState(() {
+                            isUploading = false;
+                          });
                         },
                         child: const Text('Upload Image'),
                       )
@@ -309,6 +313,8 @@ class _AddPageState extends State<AddPage> {
                         "increment":
                             double.parse(incrementController.text.trim()),
                         "imageUrl": uploadedImage,
+                        "currentBid": 0,
+                        "highestBidder": "",
                       }).then((value) {
                         Navigator.pop(context);
                       });

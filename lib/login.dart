@@ -23,10 +23,8 @@ class _LoginPageState extends State<LoginPage> {
       if (user != null) {
         // User is signed in, navigate to the auction page
         if (mounted) {
-          Navigator.pushReplacementNamed(
-            context,
-            "/auction",
-          );
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/auction', (route) => false);
         }
       }
     });

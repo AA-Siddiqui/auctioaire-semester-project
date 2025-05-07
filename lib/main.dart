@@ -1,5 +1,6 @@
 import 'package:auctioneer/add.dart';
 import 'package:auctioneer/auction.dart';
+import 'package:auctioneer/item.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -33,13 +34,20 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       initialRoute: '/splash',
-      routes: {
-        '/splash': (context) => const SplashScreen(),
-        '/': (context) => const HomePage(),
-        '/signup': (context) => const SignUpPage(),
-        '/login': (context) => const LoginPage(),
-        '/auction': (context) => const AuctionPage(),
-        'add': (context) => const AddPage(),
+      onGenerateRoute: (settings) {
+        final routes = {
+          '/splash': (context) => const SplashScreen(),
+          '/': (context) => const HomePage(),
+          '/signup': (context) => const SignUpPage(),
+          '/login': (context) => const LoginPage(),
+          '/auction': (context) => const AuctionPage(),
+          '/add': (context) => const AddPage(),
+          '/item': (context) =>
+              ItemPage(settings.arguments as Map<String, dynamic>),
+        };
+
+        return MaterialPageRoute(
+            builder: routes[settings.name ?? "/"] ?? (context) => HomePage());
       },
     );
   }
