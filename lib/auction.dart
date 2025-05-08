@@ -32,6 +32,7 @@ class AuctionPage extends StatelessWidget {
         title: Text('Auction Page'),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.grey[200],
         onPressed: () {
           Navigator.pushNamed(context, '/add');
         },
@@ -86,53 +87,84 @@ class AuctionPage extends StatelessWidget {
                           child: Container(
                             margin: EdgeInsets.only(bottom: 8),
                             decoration: BoxDecoration(
+                              color: Colors.grey[200],
                               border: Border.all(color: Colors.black26),
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: ListTile(
-                              leading: Image.network(
-                                listing["imageUrl"],
-                                width: 50,
-                                height: 50,
-                                fit: BoxFit.scaleDown,
-                              ),
-                              trailing: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                      "${max<num>(listing["amount"], (listing["currentBid"] ?? 0)).toStringAsFixed(1)} PKR"),
-                                  Text("+ ${listing["increment"]}"),
-                                ],
-                              ),
-                              title: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(listing["title"]),
-                                  Text(() {
-                                    final timestampStart =
-                                        listing["startTime"] as Timestamp;
-                                    final timestampEnd =
-                                        listing["endTime"] as Timestamp;
+                            child: ((listing["endTime"])
+                                        .microsecondsSinceEpoch >=
+                                    Timestamp.now().microsecondsSinceEpoch)
+                                ? ListTile(
+                                    leading: Image.network(
+                                      listing["imageUrl"],
+                                      width: 50,
+                                      height: 50,
+                                      fit: BoxFit.scaleDown,
+                                    ),
+                                    trailing: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                            "${max<num>(listing["amount"], (listing["currentBid"] ?? 0)).toStringAsFixed(1)} PKR"),
+                                        Text("+ ${listing["increment"]}"),
+                                      ],
+                                    ),
+                                    title: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(listing["title"]),
+                                        Text(() {
+                                          final timestampStart =
+                                              listing["startTime"] as Timestamp;
+                                          final timestampEnd =
+                                              listing["endTime"] as Timestamp;
 
-                                    if (timestampStart.microsecondsSinceEpoch <
-                                            Timestamp.now()
-                                                .microsecondsSinceEpoch &&
-                                        timestampEnd.microsecondsSinceEpoch >
-                                            Timestamp.now()
-                                                .microsecondsSinceEpoch) {
-                                      return "Ends at ${_formatDate(DateTime.fromMicrosecondsSinceEpoch((timestampEnd).microsecondsSinceEpoch))}";
-                                    }
-                                    if (timestampEnd.microsecondsSinceEpoch <
-                                        Timestamp.now()
-                                            .microsecondsSinceEpoch) {
-                                      return "Bidding ended! Winner is ${listing["highestBidder"]}";
-                                    }
-                                    return "Starts at ${_formatDate(DateTime.fromMicrosecondsSinceEpoch((timestampStart).microsecondsSinceEpoch))}";
-                                  }()),
-                                ],
-                              ),
-                            ),
+                                          if (timestampStart
+                                                      .microsecondsSinceEpoch <
+                                                  Timestamp.now()
+                                                      .microsecondsSinceEpoch &&
+                                              timestampEnd
+                                                      .microsecondsSinceEpoch >
+                                                  Timestamp.now()
+                                                      .microsecondsSinceEpoch) {
+                                            return "Ends at ${_formatDate(DateTime.fromMicrosecondsSinceEpoch((timestampEnd).microsecondsSinceEpoch))}";
+                                          }
+                                          if (timestampEnd
+                                                  .microsecondsSinceEpoch <
+                                              Timestamp.now()
+                                                  .microsecondsSinceEpoch) {
+                                            return "Bidding ended! Winner is ${listing["highestBidder"]}";
+                                          }
+                                          return "Starts at ${_formatDate(DateTime.fromMicrosecondsSinceEpoch((timestampStart).microsecondsSinceEpoch))}";
+                                        }()),
+                                      ],
+                                    ),
+                                  )
+                                : ListTile(
+                                    leading: Image.network(
+                                      listing["imageUrl"],
+                                      width: 50,
+                                      height: 50,
+                                      fit: BoxFit.scaleDown,
+                                    ),
+                                    title: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Bidding Ended"),
+                                        Text(
+                                          "${listing["highestBidder"]} won!",
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                      ],
+                                    ),
+                                    trailing:
+                                        Text("${listing["currentBid"]} PKR"),
+                                  ),
                           ),
                         );
                       },

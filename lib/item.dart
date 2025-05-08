@@ -80,6 +80,7 @@ class _ItemPageState extends State<ItemPage> {
               width: MediaQuery.sizeOf(context).width - 24,
               child: Center(
                 child: Column(
+                  spacing: 8,
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -88,13 +89,79 @@ class _ItemPageState extends State<ItemPage> {
                       height: 350,
                       fit: BoxFit.fitWidth,
                     ),
-                    Text(lastestData?["title"] ?? widget.data["title"]),
                     Text(
-                        "Starting Bid: ${lastestData?["amount"] ?? widget.data["amount"]} PKR"),
-                    Text(
-                        "Increment: ${lastestData?["increment"] ?? widget.data["increment"]} PKR"),
-                    Text(
-                        "Current Bid: ${lastestData?["currentBid"] ?? widget.data["currentBid"]} PKR"),
+                      lastestData?["title"] ?? widget.data["title"],
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Starting Bid",
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                          Text(
+                              "${lastestData?["amount"] ?? widget.data["amount"]} PKR",
+                              style: TextStyle(fontSize: 16)),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Increment",
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                          Text(
+                              "${lastestData?["increment"] ?? widget.data["increment"]} PKR",
+                              style: TextStyle(fontSize: 16)),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Current Bid",
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                          Text(
+                              "${lastestData?["currentBid"] ?? widget.data["currentBid"]} PKR",
+                              style: TextStyle(fontSize: 16)),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -165,7 +232,7 @@ class _ItemPageState extends State<ItemPage> {
                       }()))
                     : Text("You are highest bidder")
                 : Text(
-                    "Voting closed!\n${lastestData?["highestBidder"] ?? widget.data["highestBidder"]} won"),
+                    "Voting closed!\n${(lastestData?["currentBid"] ?? widget.data["currentBid"]) == 0 ? "Nobody" : (lastestData?["highestBidder"] ?? widget.data["highestBidder"])} won"),
           ],
         ),
       ),
